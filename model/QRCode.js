@@ -3,12 +3,11 @@ const { Schema } = mongoose;
 
 const QRCodeSchema = new Schema({
     location: {
-        type:String,
+        type: String,
     },
-    engineer: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Engineer',
-    }],
+    type: {
+        type: String,
+    },
     url: {
         type: Number,
         unique: true,
