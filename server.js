@@ -10,6 +10,7 @@ app.use(express.json());
 
 app.use("/api/qrcode", require("./router/qrcode.js"));
 app.use("/api/engineer", require("./router/engineer.js"));
+app.use("/api/claim", require("./router/claim.js"));
 
 const port = 5000;
 

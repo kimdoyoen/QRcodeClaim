@@ -6,7 +6,6 @@ const { Counter } = require("../model/Counter.js");
 
 router.post("/", (req, res) => {
     QRCode.find({})
-    .populate("engineer")
     .exec()
     .then((qrcodes) => {
         return res.status(200).send({success: true, qrcode: qrcodes});
@@ -28,6 +27,18 @@ router.post('/createQR', (req, res) => {
         qr.save(() => {
             return res.status(200).send({success: true, url: temp.url});
         })
+    })
+    .catch((err) => {
+        console.log(err);
+        return res.status(400).send({success: false, err});
+    });
+});
+
+router.post("/getCode", (req, res) => {
+    QRCode.findOne({url: req.body.url})
+    .exec()
+    .then((code) => {
+        return res.status(200).send({success: true, code: code});
     })
     .catch((err) => {
         console.log(err);
