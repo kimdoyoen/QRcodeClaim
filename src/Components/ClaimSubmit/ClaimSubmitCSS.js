@@ -16,7 +16,7 @@ const ClaimBody = styled.div`
     .content {
         width: 100%;
         border: 1px solid gray;
-        border-radius: 5px;
+        border-radius: 4px;
         height: 12rem;
         word-break: keep-all;
     }
@@ -26,6 +26,9 @@ const ClaimBody = styled.div`
         justify-content: center;
         button {
             padding: 5px 1.5rem;
+            background: rgb(168, 220, 255);
+            border: none;
+            border-radius: 4px;
         }
     }
 `;

@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
+
 import Toilet from "./content/Toilet.js";
+import Train from "./content/Train.js";
+import Elevator from "./content/Elevator.js";
 import SubmitComplete from './content/SubmitComplete.js';
 
 import axios from 'axios';
@@ -13,24 +16,11 @@ function SubmitClaim(props) {
         // eslint-disable-next-line default-case
         switch(type) {
             case "화장실":
-                return (
-                <>
-                <Toilet ClaimArr={ClaimArr} setClaimArr={setClaimArr} EtcContent={EtcContent} setEtcContent={setEtcContent} SubmitHandler={SubmitHandler}/>
-                </>
-                );
-            
+                return <Toilet ClaimArr={ClaimArr} setClaimArr={setClaimArr} EtcContent={EtcContent} setEtcContent={setEtcContent} SubmitHandler={SubmitHandler}/>
             case "객차 안":
-                return (
-                    <>
-                    </>
-                );
-
+                return <Train ClaimArr={ClaimArr} setClaimArr={setClaimArr} EtcContent={EtcContent} setEtcContent={setEtcContent} SubmitHandler={SubmitHandler}/>
             case "승강 설비":
-                return (
-                    <>
-                    </>
-                );
-
+                return <Elevator ClaimArr={ClaimArr} setClaimArr={setClaimArr} EtcContent={EtcContent} setEtcContent={setEtcContent} SubmitHandler={SubmitHandler}/>
             case "접수 완료":
                 return (
                     <SubmitComplete />

@@ -29,6 +29,9 @@ const ClaimSchema = new Schema({
         type: String,
         default: "미접수"
     },
+    processingContent: {
+      type: String,
+    },
     realTime: {
       type: String,
       default: realTime(),

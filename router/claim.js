@@ -9,6 +9,17 @@ require("moment-timezone");
 moment.tz.setDefault("Asia/Seoul");
 
 router.post("/", (req, res) => {
+
+    Claim.find(req.body)
+    .sort({createdAt: -1})
+    .exec()
+    .then((claims) => {
+        return res.status(200).send({success: true, claims: claims});
+    })
+    .catch((err) => {
+        console.log(err);
+        return res.status(400).send({success: false, err});
+    });
 });
 
 router.post("/claimSubmit", (req, res) => {
@@ -29,6 +40,36 @@ router.post("/claimSubmit", (req, res) => {
         console.log(err);
         return res.status(400).send({success: false, err});
     });
+});
+
+router.post("/getClaimInfo", (req, res) => {
+    Claim.findOne({claimNum: req.body.claimNum})
+    .exec()
+    .then((claim) => {
+        return res.status(200).send({success: true, claim: claim});
+    })
+    .catch((err) => {
+        console.log(err);
+        return res.status(400).send({success: false, err});
+    });
+});
+
+router.post("/saveProcessing", (req, res) => {
+    Claim.findOneAndUpdate(
+        {claimNum: req.body.claimNum},
+        {
+            processingStatus: req.body.processingStatus,
+            processingContent: req.body.processingContent
+        })
+        .exec()
+        .then((response) => {
+            return res.status(200).send({success: true});
+        })
+        .catch((err) => {
+            console.log(err);
+            return res.status(400).send({success: false, err});
+        });
 })
+
 
 module.exports = router;

@@ -4,6 +4,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import CreateNewQRCode from './Components/CreateNewQRCode';
 import Main from "./Components/ManageClient/Main.js";
 import SubmitClaim from "./Components/ClaimSubmit/SubmitClaim.js";
+import ClaimDetail from './Components/ManageClient/ClaimList/ClaimDetail';
 import RegisterEngineer from './Components/RegisterEngineer';
 import EngineerList from './Components/EngineerList';
 
@@ -20,6 +21,7 @@ function App() {
         //<Route exact path="/EngineerList" component={EngineerList} />
         }
         <Route exact path="/SubmitClaim/:url" component={SubmitClaim} />
+        <Route exact path="/ClaimDetail/:url" component={ClaimDetail} />
       </Switch>
       </BrowserRouter>
     </>
