@@ -27,7 +27,7 @@ const ClaimSchema = new Schema({
     },
     processingStatus: {
         type: String,
-        default: "미접수"
+        default: "미처리"
     },
     processingContent: {
       type: String,

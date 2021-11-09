@@ -33,30 +33,65 @@ const ClaimBody = styled.div`
     }
 `;
 
-const CompleteDiv = styled.div`
-    background-color: rgba( 0, 0, 0, 0.5 );
+const CheckModalDiv = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+
+    position: fixed;
+    top: 0px;
+    left: 0px;
+
     width: 100vw;
     height: 100vh;
-    margin: 0px;
-    padding: 35vh 15vw;
-    .popup {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 65%;
-        height: 20%;
-        padding: 2.5%;
-        background: white;
-        border-radius: 5px;
-        button {
-            background: skyblue;
-            border: none;
-            padding: 7px;
-            width: 25vw;
-            border-radius: 5px;
+
+    background-color: rgba( 0, 0, 0, 0.5 );
+
+    .container {
+        position: absolute;
+
+        width: 80vw;
+        height: auto;
+        max-height: 80vh;
+
+        padding: 2rem 1rem;
+
+        background-color: #fff;
+
+        overflow: scroll;
+
+        .title {
+            position: relative;
+            margin: 0px;
+            font-size: 20px;
+            text-align: center;
+        }
+        .btnDiv {
+            display: flex;
+            justify-content: space-evenly;
+            align-content: center;
+            align-items: center;
+            button {
+                padding: 5px 1.5rem;
+                background: rgb(168, 220, 255);
+                border: none;
+                border-radius: 4px;
+            }
         }
     }
 `;
 
-export { ClaimBody, CompleteDiv };
+const CompleteDiv = styled.div`
+    padding: 2rem;
+    .title {
+        font-size: 20px;
+        text-align: center;
+    }
+    .content {
+        margin-top: 2rem;
+        line-height: 25px;
+    }
+`;
+
+export { ClaimBody, CheckModalDiv, CompleteDiv };

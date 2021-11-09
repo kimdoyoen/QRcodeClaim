@@ -2,30 +2,31 @@ import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import Select from 'react-select';
 import { DateRange } from 'react-date-range';
-import { addDays } from 'date-fns';
 import * as rdrLocales from 'react-date-range/dist/locale';
 import axios from 'axios';
 
 import { ClaimListDiv } from '../ManageClientCSS.js';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; 
+import { getCLS } from 'web-vitals';
 
-function ClaimList() {
+function ClaimList(props) {
     const [ClaimList, setClaimList] = useState([]);
     const [Filter, setFilter] = useState("");
     const [Category, setCategory] = useState("전체");
+    const [ProcessingState, setProcessingState] = useState("전체");
     const [DateFilter, setDateFilter] = useState("전체");
     const [DateRangeFilter, setDateRangeFilter] = useState([
         {
             startDate: new Date(),
-            endDate: null,
+            endDate: new Date(),
             key: "selection",   
         }
     ]);
 
     const options= [
         { value: "전체", label: "전체"},
-        { value: "날짜 및 카테고리", label: "날짜 및 카테고리"},
+        { value: "검색 필터 선택", label: "검색 필터 선택"},
     ];
 
     const DateOptions= [
@@ -39,6 +40,14 @@ function ClaimList() {
         { value: "객차 안", label: "객차 안"},
         { value: "승강 설비", label: "승강 설비"},
     ];
+
+    const ProcessingOptions = [
+        { value: "전체", label: "전체"},
+        { value: "미처리", label: "미처리"},
+        { value: "처리 중", label: "처리 중"},
+        { value: "보류", label: "보류"},
+        { value: "처리 완료", label: "처리 완료"},
+    ]
 
     const SelectStyles = {
         container: (provide) => ({
@@ -62,7 +71,7 @@ function ClaimList() {
         setFilter(e.value);
     }
 
-    useEffect(() => {
+    const getClaimList = () => {
         if(Filter === "전체" || DateFilter === "전체" || DateFilter === "선택 완료") {
             let body = {
                 type: Category,
@@ -78,6 +87,9 @@ function ClaimList() {
                     $lte: endDate.getTime(),
                 }
             }
+            if(ProcessingState !== "전체") {
+                body.processingStatus = ProcessingState;
+            }
             axios.post("/api/claim", body).then((response) => {
                 if(response.data.success) {
                     let temp = [...response.data.claims];
@@ -88,14 +100,25 @@ function ClaimList() {
                 }
             })
         }
-    }, [Filter, Category, DateFilter]);
+    }
+
+    useEffect(() => {
+        getClaimList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [Filter, Category, DateFilter, ProcessingState]);
+
+    useEffect(() => {
+        if(props.NewClaim.claimNum) {
+            getClaimList();
+        }
+    }, [props.NewClaim]);
 
     return (
         <ClaimListDiv>
             <div className="filter">
                 <Select options={options} defaultValue={options[0]} styles={SelectStyles} onChange={(e) => { SelectHandler(e) }} />
                 {
-                    Filter === "날짜 및 카테고리" && (
+                    Filter === "검색 필터 선택" && (
                     <>
                     <Select options={DateOptions} defaultValue={DateOptions[0]} styles={SelectStyles} onChange={(e) => { setDateFilter(e.value) }} />
                     {
@@ -108,6 +131,7 @@ function ClaimList() {
                         )
                     }
                     <Select options={CategoryOptions} defaultValue={CategoryOptions[0]} styles={SelectStyles} onChange={(e) => { setCategory(e.value) }} />
+                    <Select options={ProcessingOptions} defaultValue={ProcessingOptions[0]} styles={SelectStyles} onChange={(e) => { setProcessingState(e.value) }} />
                     </>
                 )}
                 {
@@ -138,11 +162,11 @@ function ClaimList() {
                 ClaimList[0] && (
                     ClaimList.map((claim, idx) => {
                         let processingType = "";
-                        if(claim.processingStatus==="미접수") {
+                        if(claim.processingStatus==="미처리") {
                             processingType="before";
-                        } else if (claim.processingStatus ==="접수 중") {
+                        } else if (claim.processingStatus ==="처리 중") {
                             processingType="doing";
-                        } else if (claim.processingStatus === "조치 완료") {
+                        } else if (claim.processingStatus === "처리 완료") {
                             processingType="done";
                         } else {
                             processingType="hold";
@@ -156,7 +180,7 @@ function ClaimList() {
                                 <p className={processingType}>{claim.processingStatus}</p>
                                 <Link to={"/ClaimDetail/"+claim.claimNum}>
                                     <button>
-                                        {claim.processingStatus === "조치 완료" ? "보기" : "접수"}
+                                        {claim.processingStatus === "미처리" ? "처리" : "보기"}
                                     </button>
                                 </Link>
                             </div>

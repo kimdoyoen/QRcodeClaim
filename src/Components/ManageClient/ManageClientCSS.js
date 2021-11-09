@@ -30,6 +30,50 @@ const HeaderDiv = styled.div`
     }
 `;
 
+const ClaimAlarmDiv = styled.div`
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background: rgb(0, 0, 0, 0.5);
+    .container {
+        position: absolute;
+        top: 20%;
+        left: 40%;
+
+        height: 25%;
+        width: 20%;
+
+        background: #fff;
+        border-radius: 4px;
+
+        .close {
+            padding-right: 15px;
+            margin-top: 5px;
+            font-size: 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            float: right;
+        }
+
+        .content {
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .check {
+            width: 25%;
+            margin: 1.5rem 37.5% 0 37.5%;
+            padding: 3% 5%;
+            background: rgb(168, 220, 255);
+            border: none;
+            border-radius: 2px;
+        }
+    }
+`;
+
 const ClaimListDiv = styled.div`
     margin: 10px 0;
     .filter {
@@ -192,4 +236,4 @@ const SaveBtn = styled.div`
     }
 `;
 
-export { ManageBody, HeaderDiv, ClaimListDiv, BackHeadDiv, ClaimInfoDiv, ProcessingDiv, SaveBtn };
+export { ManageBody, HeaderDiv, ClaimAlarmDiv, ClaimListDiv, BackHeadDiv, ClaimInfoDiv, ProcessingDiv, SaveBtn };

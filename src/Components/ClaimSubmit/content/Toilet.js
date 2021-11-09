@@ -69,7 +69,7 @@ function Toilet(props) {
                 onChange={(e) => props.setEtcContent(e.currentTarget.value)}
                 ></textarea>
                 <div className="submitBtn">
-                    <button onClick={props.SubmitHandler}>접수</button>
+                    <button onClick={() => props.setCheckContent(true)}>접수</button>
                 </div>
             </div>
         </ClaimBody>

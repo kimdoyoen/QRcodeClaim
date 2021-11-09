@@ -74,7 +74,8 @@ function CreateNewQRCode(props) {
             CodeUrl
             ? (
                 <>
-                <div>
+                <div style={{margin: "0 auto"}}>
+                    <p>민원이 있다면 QR code를 찍어주세요</p>
                     <QRCode value={"http://localhost/submitClaim/"+CodeUrl} />
                 </div>
                 <button onClick={() => {props.history.push("/")}}>완료</button>

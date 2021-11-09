@@ -24,16 +24,23 @@ router.post("/", (req, res) => {
 
 router.post("/claimSubmit", (req, res) => {
     let temp = req.body;
-    console.log("??")
+    if (temp.type === "화장실") {
+        temp.claimNum = "T";
+    } else if (temp.type === "객차 안") {
+        temp.claimNum = "C";
+    } else {
+        temp.claimNum = "E";
+    }
 
     Counter.findOneAndUpdate({ _id: "61641e307e55a3e8110d1f30" }, { $inc: { claimNum: 1 }})
     .exec()
     .then((counter) => {
-        temp.claimNum = counter.claimNum;
+        temp.claimNum = temp.claimNum + counter.claimNum;
         temp.realTime = moment().format("YY-MM-DD[ ]HH:mm");
         const claim = new Claim(temp);
         claim.save(() => {
-            return res.status(200).send({success: true});
+            req.io.sockets.emit('new', claim);
+            return res.status(200).send({success: true, url: claim.claimNum});
         })
     })
     .catch((err) => {

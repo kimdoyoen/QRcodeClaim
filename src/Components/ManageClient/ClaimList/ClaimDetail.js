@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
 import Select from "react-select";
 import axios from "axios";
 
@@ -9,10 +10,10 @@ function ClaimDetail(props) {
     const [ChangeStatus, setChangeStatus] = useState("");
     const [ChangeContent, setChangeContent] = useState("");
     const [Options, setOptions] = useState([
-        {value: "미접수", label: "미접수"},
-        {value: "접수 중", label: "접수 중"},
+        {value: "미처리", label: "미처리"},
+        {value: "처리 중", label: "처리 중"},
         {value: "보류", label: "보류"},
-        {value: "조치 완료", label: "조치 완료"},
+        {value: "처리 완료", label: "처리 완료"},
     ]);
 
     const SelectStyles = {
@@ -34,7 +35,7 @@ function ClaimDetail(props) {
         axios.post("/api/claim/saveProcessing", body).then((response) => {
             if(response.data.success) {
                 alert("저장이 완료되었습니다.");
-                window.location.reload();
+                props.history.push("/");
             } else {
                 console.log(response.data.err);
             }
@@ -48,7 +49,6 @@ function ClaimDetail(props) {
 
         axios.post("/api/claim/getClaimInfo", body).then((response) => {
             if(response.data.success) {
-                console.log(response.data.claim);
                 setClaimInfo(response.data.claim);
                 setChangeStatus(response.data.claim.processingStatus);
                 setChangeContent(response.data.claim.processingContent);
@@ -59,7 +59,7 @@ function ClaimDetail(props) {
     }, [])
 
     useEffect(() => {
-        if(ClaimInfo.processingStatus === "접수 중" || ClaimInfo.processingStatus === "보류") {
+        if(ClaimInfo.processingStatus === "처리 중" || ClaimInfo.processingStatus === "보류") {
             let temp = [...Options];
             temp.shift();
             setOptions(temp);
@@ -98,8 +98,8 @@ function ClaimDetail(props) {
                             <p>
                                 처리 상태 : 
                                 {
-                                    ClaimInfo.processingStatus === "조치 완료"
-                                    ? " 조치 완료"
+                                    ClaimInfo.processingStatus === "처리 완료"
+                                    ? "처리 완료"
                                     : <Select
                                         options={Options}
                                         styles={SelectStyles}
@@ -109,16 +109,16 @@ function ClaimDetail(props) {
                                 }
                             </p>
                             {
-                                ( ChangeStatus==="보류" || ChangeStatus === "조치 완료" ) && <p>조치 내용</p>
+                                ( ChangeStatus==="보류" || ChangeStatus === "처리 완료" ) && <p>조치 내용</p>
                             }
                         </div>
                         {
-                            (ChangeStatus==="보류" || ChangeStatus==="조치 완료") && (
+                            (ChangeStatus==="보류" || ChangeStatus==="처리 완료") && (
                                 <div className="content">
                                     <textarea
-                                        placeholder="조치 내용을 입력해주세요."
+                                        placeholder="처리 내용을 입력해주세요."
                                         value={ChangeContent}
-                                        disabled={ClaimInfo.processingStatus==="조치 완료" ? true : false}
+                                        disabled={ClaimInfo.processingStatus==="처리 완료" ? true : false}
                                         onChange={(e) => setChangeContent(e.target.value)}
                                     ></textarea>
                                 </div>
@@ -126,7 +126,7 @@ function ClaimDetail(props) {
                         }
                     </ProcessingDiv>
                     {
-                        ClaimInfo.processingStatus !== "조치 완료" &&
+                        ClaimInfo.processingStatus !== "처리 완료" &&
                         <SaveBtn>
                             <button onClick={SaveHandler} >저장</button>
                         </SaveBtn>
@@ -138,4 +138,4 @@ function ClaimDetail(props) {
     )
 }
 
-export default ClaimDetail
+export default withRouter(ClaimDetail)
