@@ -1,6 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
+import Login from "./Components/User/Login.js";
 import CreateNewQRCode from './Components/CreateNewQRCode';
 import Main from "./Components/ManageClient/Main.js";
 import SubmitClaim from "./Components/ClaimSubmit/SubmitClaim.js";
@@ -16,6 +17,7 @@ function App() {
       <Switch>
         <Route exact path="/" component={Main} />
         <Route exact path="/makeNewQR" component={CreateNewQRCode} />
+        <Route exact path="/login" component={Login} />
         {
         //<Route exact path="/registerEngineer" component={RegisterEngineer} />
         //<Route exact path="/EngineerList" component={EngineerList} />

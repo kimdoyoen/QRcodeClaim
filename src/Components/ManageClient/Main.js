@@ -1,12 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import socketio from 'socket.io-client';
 
 import ClaimList from './ClaimList/ClaimList.js';
+import NewClaimAlarm from './NewClaimAlarm.js';
 import { ManageBody, HeaderDiv } from "./ManageClientCSS.js";
 
 function Main() {
-    const [QRList, setQRList] = useState([]);
     const [Category, setCategory] = useState("민원 리스트");
+    const [Socket, setSocket] = useState();
+    const [NewClaim, setNewClaim] = useState({});
+
+    useEffect(() => {
+        setSocket(socketio.connect("http://localhost:5000"));
+    }, []);
+
+    useEffect(() => {
+        if(Socket) {
+            Socket.emit("init", { name: 'doyeon'});
+
+            Socket.on("connected", (msg) => {
+                console.log(msg);
+            });
+            Socket.on("new", (msg) => {
+                setNewClaim(msg);
+            });
+        }
+    }, [Socket]);
 
     return (
         <ManageBody>
@@ -21,8 +41,11 @@ function Main() {
             </HeaderDiv>
             {
                 Category === "민원 리스트"
-                ? <ClaimList />
+                ? <ClaimList NewClaim={NewClaim}/>
                 : null
+            }
+            {
+                NewClaim.claimNum && <NewClaimAlarm claim={NewClaim} setNewClaim={setNewClaim}/>
             }
         </ManageBody>
     )
