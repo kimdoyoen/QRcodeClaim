@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import Login from "./Components/User/Login.js";
-import CreateNewQRCode from './Components/CreateNewQRCode';
+import CreateNewQRCode from './Components/CreateQR/CreateNewQRCode';
 import Main from "./Components/ManageClient/Main.js";
 import SubmitClaim from "./Components/ClaimSubmit/SubmitClaim.js";
 import ClaimDetail from './Components/ManageClient/ClaimList/ClaimDetail';

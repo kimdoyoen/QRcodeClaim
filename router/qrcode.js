@@ -16,10 +16,25 @@ router.post("/", (req, res) => {
     })
 });
 
+router.post("/checkLocation", (req, res) => {
+    QRCode.find(req.body)
+    .exec()
+    .then((response) => {
+        if(response[0]) {
+            return res.status(200).send({success: true, isDuplicate: true});
+        }
+        else return res.status(200).send({success: true, isDuplicate: false});
+    })
+    .catch((err) => {
+        console.log(err);
+        return res.status(400).send({success: false, err});
+    });
+})
+
 router.post('/createQR', (req, res) => {
     let temp = req.body;
 
-    Counter.findOneAndUpdate({ _id: "61641e307e55a3e8110d1f30" }, { $inc: { qrNum: 1 }})
+    Counter.findOneAndUpdate({ _id: "618bcdc937fc4cb78c7293fe" }, { $inc: { qrNum: 1 }})
     .exec()
     .then((counter) => {
         temp.url = counter.qrNum;

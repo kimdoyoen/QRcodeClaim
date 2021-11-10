@@ -27,6 +27,9 @@ const HeaderDiv = styled.div`
             color: black;
             font-weight: bold;
         }
+        a {
+            float: right;
+        }
     }
 `;
 

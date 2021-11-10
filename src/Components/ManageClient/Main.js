@@ -31,12 +31,12 @@ function Main() {
     return (
         <ManageBody>
             <HeaderDiv>
-                <Link to="/makeNewQR" style={{marginBottom: "50px"}}>
-                    <button>QR code 생성하기</button>
-                </Link>
                 <div className="category">
                     <button className={Category==="민원 리스트" ? "active" : null} onClick={() => setCategory("민원 리스트")}>민원 리스트</button>
                     <button className={Category==="민원 통계" ? "active" : null} onClick={() => setCategory("민원 통계")}>민원 통계</button>
+                    <Link to="/makeNewQR" style={{marginBottom: "50px"}}>
+                        <button className="active">QR code 생성하기</button>
+                    </Link>
                 </div>
             </HeaderDiv>
             {

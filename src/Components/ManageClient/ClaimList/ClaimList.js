@@ -26,7 +26,7 @@ function ClaimList(props) {
 
     const options= [
         { value: "전체", label: "전체"},
-        { value: "검색 필터 선택", label: "검색 필터 선택"},
+        { value: "검색하기", label: "검색하기"},
     ];
 
     const DateOptions= [
@@ -118,7 +118,7 @@ function ClaimList(props) {
             <div className="filter">
                 <Select options={options} defaultValue={options[0]} styles={SelectStyles} onChange={(e) => { SelectHandler(e) }} />
                 {
-                    Filter === "검색 필터 선택" && (
+                    Filter === "검색하기" && (
                     <>
                     <Select options={DateOptions} defaultValue={DateOptions[0]} styles={SelectStyles} onChange={(e) => { setDateFilter(e.value) }} />
                     {
@@ -153,7 +153,7 @@ function ClaimList(props) {
             <div className="listHead">
                 <p>접수 시간</p>
                 <p>접수 번호</p>
-                <p>접수 위치</p>
+                <p>민원 발생 위치</p>
                 <p>카테고리</p>
                 <p>처리 상태</p>
                 <p>접수하기</p>
