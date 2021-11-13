@@ -17,6 +17,10 @@ function Toilet(props) {
     return (
         <ClaimBody>
             <h1>화장실 내 민원신고</h1>
+            <div className="desc">
+                민원을 신고해주셔서 감사합니다. <br />
+                본 민원 신고 서비스는 QR코드를 이용하여 보다 편리하고 빠르게 민원을 처리하는 시스템입니다. 민원 접수 시, 관리자에게 적시 전달되며, 해당 민원 처리 결과는 접수 후 제공되는 링크를 통해 확인하실 수 있습니다.
+            </div>
             <div className="checkbox">
                 <div>
                     <label>

@@ -148,6 +148,16 @@ function CreateNewQRCode(props) {
         })
     }
 
+    useEffect(() => {
+        
+        axios.post("/api/qrcode").then((response) => {
+            if(response.data.success) {
+                let temp = [...response.data.qrcodes];
+                setQRList(temp);
+            }
+        })
+    }, []);
+
     /*
     useEffect(() => {
         axios.post("/api/engineer/getEngineerList").then((response) => {
@@ -179,45 +189,39 @@ function CreateNewQRCode(props) {
             <div className="filter">
                 {setFilter()}
             </div>
-            {/*
-                <div>
-                    담당 엔지니어
-                    <Select options={Options} placeholder="담당 엔지니어" onChange={(e) => setEngineerIdx(e.value)} />
-                </div>
             {
-                EngineerIdx > -1 && (
-                    <div>
-                        선택한 엔지니어
-                        <div style={{border: "1px solid black"}}>
-                            <p>이름: {EngineerList[EngineerIdx].name}</p>
-                            <p>연락처: {EngineerList[EngineerIdx].phoneNum}</p>
+                CodeUrl !== "" && (
+                    <>
+                    <div className="codeContainer">
+                        <div className="QR">
+                            <QRCode value={"http://localhost/submitClaim/"+CodeUrl} size="400" />
+                        </div>
+                        <div className="desc">
+                            <Triangle /> <br />
+                            QR코드를 스캔하여 <br />
+                            민원을 접수해보세요
                         </div>
                     </div>
+                    <button onClick={() => {props.history.push("/")}}>완료</button>
+                    </>
                 )
             }
-        */}
-        {
-            CodeUrl !== "" && (
-                <>
-                <div className="codeContainer">
-                    <div className="QR">
-                        <QRCode value={"http://localhost/submitClaim/"+CodeUrl} size="400" />
-                    </div>
-                    <div className="desc">
-                        <Triangle /> <br />
-                        QR코드를 스캔하여 <br />
-                        민원을 접수해보세요
-                    </div>
-                </div>
-                <button onClick={() => {props.history.push("/")}}>완료</button>
-                </>
-            )
-        }
         </CreateDiv>
         <QRListDiv>
             <p>생성된 QR 코드 목록</p>
+            <div className="qrList">
+                {
+                    QRList.map((qr, idx) => {
+                        if(CodeUrl === qr.url)
+                            return <p onClick={() => setCodeUrl("")} className="active">{qr.location}</p>
+                        else return <p onClick={() => setCodeUrl(qr.url)}>{qr.location}</p>
+                    })
+                }
+            </div>
         </QRListDiv>
-        <button onClick={() => {props.history.push("/")}}>취소</button>
+        <div className="btnDiv">
+            <button onClick={() => {props.history.push("/")}}>취소</button>
+        </div>
         </CreateBody>
     )
 }

@@ -12,7 +12,7 @@ function SubmitComplete(props) {
                늘 시민의 편익을 위해 노력하는 서울교통공사가 되도록 하겠습니다.<br /><br />
                접수하신 내용이 처리되었는지 확인하려면 추후 아래 링크로 접속하셔서 해당 접수 코드를 입력해보세요.
            </div>
-           <Link to={`ClaimDetail/${props.url}`}>http://localhost/ClaimDetail/{props.url}</Link>
+           <Link to={`/ClaimResultCheck/${props.url}`}>http://localhost/ClaimResultCheck/{props.url}</Link>
        </CompleteDiv>
     )
 }

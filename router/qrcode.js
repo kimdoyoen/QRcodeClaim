@@ -8,7 +8,7 @@ router.post("/", (req, res) => {
     QRCode.find({})
     .exec()
     .then((qrcodes) => {
-        return res.status(200).send({success: true, qrcode: qrcodes});
+        return res.status(200).send({success: true, qrcodes: qrcodes});
     })
     .catch((err) => {
         console.log(err);

@@ -24,7 +24,7 @@ function SubmitClaim(props) {
             case "객차 안":
                 return <Train ClaimArr={ClaimArr} setClaimArr={setClaimArr} EtcContent={EtcContent} setEtcContent={setEtcContent} setCheckContent={setCheckContent} />
             case "승강 설비":
-                return <Elevator ClaimArr={ClaimArr} setClaimArr={setClaimArr} EtcContent={EtcContent} setEtcContent={setEtcContent} setCheckContent={setCheckContent} />
+                return <Elevator Code={Code} ClaimArr={ClaimArr} setClaimArr={setClaimArr} EtcContent={EtcContent} setEtcContent={setEtcContent} setCheckContent={setCheckContent} />
             case "접수 완료":
                 return <SubmitComplete url={Url}/>
         }

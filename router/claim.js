@@ -24,6 +24,7 @@ router.post("/", (req, res) => {
 
 router.post("/claimSubmit", (req, res) => {
     let temp = req.body;
+    console.log(temp);
     if (temp.type === "화장실") {
         temp.claimNum = "T";
     } else if (temp.type === "객차 안") {
@@ -32,7 +33,7 @@ router.post("/claimSubmit", (req, res) => {
         temp.claimNum = "E";
     }
 
-    Counter.findOneAndUpdate({ _id: "61641e307e55a3e8110d1f30" }, { $inc: { claimNum: 1 }})
+    Counter.findOneAndUpdate({ _id: "618bcdc937fc4cb78c7293fe" }, { $inc: { claimNum: 1 }})
     .exec()
     .then((counter) => {
         temp.claimNum = temp.claimNum + counter.claimNum;

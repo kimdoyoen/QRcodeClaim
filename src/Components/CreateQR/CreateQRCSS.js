@@ -7,16 +7,31 @@ const CreateBody = styled.div`
     width: 80%;
     height: auto;
     margin: 0 auto;
+
+    .btnDiv {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+        background: rgb(224, 224, 224);
+        button {
+            padding: 1rem 2rem;
+            font-size: 20px;
+            background: rgb(169, 219, 253);
+            border: none;
+            border-radius: 2px;
+        }
+    }
 `;
 
 const CreateDiv = styled.div`
     display: inline-block;
-    width: calc(50% - 4rem - 1px);
+    width: calc(48% - 1px);
     height: 70vh;
     vertical-align: top;
 
     margin: 2rem 0;
-    padding: 2% 2rem;
+    padding: 2% 1%;
     border-right: 1px solid black;
 
     .category {
@@ -106,6 +121,21 @@ const QRListDiv = styled.div`
 
     p {
         font-size: 30px;
+    }
+
+    .qrList {
+        height: 50vh;
+        padding: 1rem 2rem;
+        border: 1px solid rgb(190, 190, 190);
+        border-radius: 4px;
+        p {
+            margin: 0px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .active {
+            background-color: rgba(35, 44, 255, 0.59);
+        }
     }
 `;
 

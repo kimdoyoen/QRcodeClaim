@@ -17,7 +17,6 @@ io.on('connection', function (socket, err) {
   console.log("user connected");
 
   socket.on('init', function(data) {
-    console.log(data);
     socket.emit("connected", "socket connected");
   });
 });

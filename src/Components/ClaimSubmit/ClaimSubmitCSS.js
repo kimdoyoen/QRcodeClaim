@@ -8,6 +8,28 @@ const ClaimBody = styled.div`
     h1 {
         font-size: 25px;
     }
+    .desc {
+        margin: 2rem 0;
+        word-break: keep-all;
+        &::before {
+            content: "";
+
+            position: fixed;
+            top: 0px;
+            left: 0px;
+
+            width: 100vw;
+            height: 100vh;
+
+            background-image: url("/Img/logo.jpg");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+
+            opacity: 0.2;
+            z-index: -1;
+        }
+    }
     .checkbox {
         div {
             margin-bottom: 0.5rem;
@@ -19,6 +41,10 @@ const ClaimBody = styled.div`
         border-radius: 4px;
         height: 12rem;
         word-break: keep-all;
+        resize: none;
+        &:focus {
+          outline: none;
+        }
     }
     .submitBtn {
         margin-top: 1rem;
@@ -72,8 +98,9 @@ const CheckModalDiv = styled.div`
             justify-content: space-evenly;
             align-content: center;
             align-items: center;
+            margin-top: 3rem;
             button {
-                padding: 5px 1.5rem;
+                padding: 0.5rem 1.5rem;
                 background: rgb(168, 220, 255);
                 border: none;
                 border-radius: 4px;
@@ -91,7 +118,48 @@ const CompleteDiv = styled.div`
     .content {
         margin-top: 2rem;
         line-height: 25px;
+        z-index: 1;
+        &::before {
+            content: "";
+            position: fixed;
+            top: 0px;
+            left: 0px;
+
+            width: 100vw;
+            height: 100vh;
+            background-image: url("/Img/logo.jpg");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+
+            opacity: 0.2;
+            z-index: -50;
+        }
     }
 `;
 
-export { ClaimBody, CheckModalDiv, CompleteDiv };
+const ClaimResultDiv = styled.div`
+    display: grid;
+    grid-auto-columns: 4fr 6fr;
+    gird-row: 1fr 1fr 1fr 1fr 1fr 1fr;
+	grid-auto-flow: row;
+
+	align-items: stretch;
+	justify-items: stretch;
+    align-content: center;
+
+    height: 100vh;
+
+    p {
+        margin: 0;
+        padding: 1rem;
+    }
+    .label {
+        background: rgb(169, 219, 253);
+    }
+    p:nth-child(2n) {
+        grid-column: 2;
+    }
+`;
+
+export { ClaimBody, CheckModalDiv, CompleteDiv, ClaimResultDiv };
