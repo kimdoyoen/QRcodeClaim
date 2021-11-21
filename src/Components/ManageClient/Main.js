@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import socketio from 'socket.io-client';
 
 import ClaimList from './ClaimList/ClaimList.js';
+import ClaimChart from './ClaimChart/ClaimChart.js';
 import NewClaimAlarm from './NewClaimAlarm.js';
 import { ManageBody, HeaderDiv } from "./ManageClientCSS.js";
 
@@ -42,7 +43,7 @@ function Main() {
             {
                 Category === "민원 리스트"
                 ? <ClaimList NewClaim={NewClaim}/>
-                : null
+                : <ClaimChart />
             }
             {
                 NewClaim.claimNum && <NewClaimAlarm claim={NewClaim} setNewClaim={setNewClaim}/>

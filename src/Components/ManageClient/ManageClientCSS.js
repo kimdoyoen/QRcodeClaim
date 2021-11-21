@@ -5,7 +5,7 @@ import styled from "@emotion/styled";
 
 const ManageBody = styled.div`
     width: 80%;
-    height: auto;
+    height: 100vh;
     margin: 0 auto;
 `;
 
@@ -121,14 +121,14 @@ const ClaimListDiv = styled.div`
         padding: 0 auto;
         p {
             display: inline-block;
-            width: 16%;
+            width: calc(100% / 7);
             text-align: center;
         }
     }
     .claim {  
         p {
             display: inline-block;
-            width: 16%;
+            width: calc(100% / 7);
             text-align: center;
         }
         .before {
@@ -141,12 +141,10 @@ const ClaimListDiv = styled.div`
             color: rgb(26, 188, 156);
         }
         a {
-            margin: 0 auto;
             width: 100%;
             button {
                 cursor: pointer;
                 background: rgb(224, 224, 224);
-                margin: 0 6%;
                 padding: 5px 15px;
                 border-radius: 4px;
                 border: none;
@@ -239,4 +237,56 @@ const SaveBtn = styled.div`
     }
 `;
 
-export { ManageBody, HeaderDiv, ClaimAlarmDiv, ClaimListDiv, BackHeadDiv, ClaimInfoDiv, ProcessingDiv, SaveBtn };
+const ClaimChartDiv = styled.div`
+    height: 100vh;
+    margin: 10px 0;
+    .chart {
+        margin-top: 2vh;
+        height: 50vh;
+    }
+`;
+
+const FilterDiv = styled.div`
+    .date {
+        display: inline-block;
+        border: 1px solid hsl(0, 0%, 80%);
+        padding: 7px 10px;
+        border-radius: 3.5px;
+        margin-right: 20px;
+        cursor: pointer;
+    }
+    .date + span {
+        margin-right: 20px;
+    }
+    .datepicker {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        background: rgb(0, 0, 0, 0.5);
+        z-index: 1000;
+        .calendar {
+            position: absolute;
+            top: 15%;
+            left: 35%;
+
+            .submitBtn {
+                position: relative;
+                top: -2rem;
+                left: 1rem;
+                background: none;
+                border: none;
+                font-size: 30px;
+                line-height: 30px;
+            }
+        }
+    }
+`;
+const ChartContainerDiv = styled.div`
+    display: inline-block;
+    height: 100%;
+    width: 50%;
+`;
+
+export { ManageBody, HeaderDiv, ClaimAlarmDiv, ClaimListDiv, BackHeadDiv, ClaimInfoDiv, ProcessingDiv, SaveBtn, ChartContainerDiv, FilterDiv, ClaimChartDiv };

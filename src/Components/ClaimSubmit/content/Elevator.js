@@ -25,7 +25,7 @@ function Elevator(props) {
                 <div>
                     <label>
                         <input type="checkbox" value={props.Code.location[1] === "S" ? "에스컬레이터가 멈췄어요/고장났어요" : "엘리베이터가 멈췄어요/고장났어요"} onClick={(e) => {ClaimArr(e)}} />
-                        에스컬레이터가 멈췄어요/고장났어요
+                        {props.Code.location[1] === "S" ? "에스컬레이터" : "엘리베이터"}가 멈췄어요/고장났어요
                     </label>
                 </div>
                 <div>

@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
 import Select from 'react-select';
 import { DateRange } from 'react-date-range';
 import * as rdrLocales from 'react-date-range/dist/locale';
 import moment from 'moment';
 import axios from 'axios';
 
-import { ClaimListDiv, FilterDiv } from '../ManageClientCSS.js';
-import 'react-date-range/dist/styles.css'; // main css file
-import 'react-date-range/dist/theme/default.css'; 
+import Chart from './Chart';
+import { ClaimChartDiv, FilterDiv } from "../ManageClientCSS.js";
 
-function ClaimList(props) {
-    const [ClaimList, setClaimList] = useState([]);
+function ClaimChart() {
+    const [Data, setData] = useState([]);
+    const [Percentage, setPercentage] = useState([]);
     const [Filter, setFilter] = useState("");
     const [Category, setCategory] = useState("전체");
-    const [ProcessingState, setProcessingState] = useState("전체");
     const [DateFilter, setDateFilter] = useState("전체");
     const [DateRangeFilter, setDateRangeFilter] = useState([
         {
@@ -41,14 +39,6 @@ function ClaimList(props) {
         { value: "승강 설비", label: "승강 설비"},
     ];
 
-    const ProcessingOptions = [
-        { value: "전체", label: "전체"},
-        { value: "미처리", label: "미처리"},
-        { value: "처리 중", label: "처리 중"},
-        { value: "보류", label: "보류"},
-        { value: "처리 완료", label: "처리 완료"},
-    ]
-
     const SelectStyles = {
         container: (provide) => ({
             ...provide,
@@ -71,50 +61,43 @@ function ClaimList(props) {
         setFilter(e.value);
     }
 
-    const getClaimList = () => {
+    useEffect(() => {  
         if(Filter === "전체" || DateFilter === "전체" || DateFilter === "선택 완료") {
             let body = {
-                type: Category,
+                match: {
+                    type: Category,
+                },
+                type: "$claimArr",
             };
-            if(body.type==="전체" || Filter==="전체") {
-                delete body.type;
+            if(body['match'].type==="전체" || Filter==="전체") {
+                delete body.match.type;
+                body.type = "$type";
             }
             if(DateFilter === "선택 완료") {
                 let endDate = new Date(DateRangeFilter[0].endDate);
                 endDate.setDate(endDate.getDate() + 1);
-                body.createdAt = {
-                    $gte: DateRangeFilter[0].startDate.getTime(),
-                    $lte: endDate.getTime(),
+                body['match'].createdAt = {
+                    $gte: DateRangeFilter[0].startDate,
+                    $lt: endDate
+                }
+            } else {
+                body['match'].createdAt = {
+                    $gte : 0,
                 }
             }
-            if(ProcessingState !== "전체") {
-                body.processingStatus = ProcessingState;
-            }
-            axios.post("/api/claim", body).then((response) => {
+            axios.post("/api/claim/getStatistics", body).then((response) => {
                 if(response.data.success) {
-                    let temp = [...response.data.claims];
-                    setClaimList(temp);
-                }
-                else {
-                    console.log(response.data.err);
+                    let temp = [...response.data.pureData];
+                    setData(temp);
+                    temp = [...response.data.percentage];
+                    setPercentage(temp);
                 }
             })
         }
-    }
-
-    useEffect(() => {
-        getClaimList();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [Filter, Category, DateFilter, ProcessingState]);
-
-    useEffect(() => {
-        if(props.NewClaim.claimNum) {
-            getClaimList();
-        }
-    }, [props.NewClaim]);
+    }, [Filter, Category, DateFilter]);
 
     return (
-        <ClaimListDiv>
+        <ClaimChartDiv>
             <FilterDiv>
                 <Select options={options} defaultValue={options[0]} styles={SelectStyles} onChange={(e) => { SelectHandler(e) }} />
                 {
@@ -131,7 +114,6 @@ function ClaimList(props) {
                         )
                     }
                     <Select options={CategoryOptions} defaultValue={CategoryOptions[0]} styles={SelectStyles} onChange={(e) => { setCategory(e.value) }} />
-                    <Select options={ProcessingOptions} defaultValue={ProcessingOptions[0]} styles={SelectStyles} onChange={(e) => { setProcessingState(e.value) }} />
                     </>
                 )}
                 {
@@ -150,51 +132,11 @@ function ClaimList(props) {
                     </div>
                 }
             </FilterDiv>
-            <div className="listHead">
-                <p>접수 시간</p>
-                <p>접수 번호</p>
-                <p>민원 발생 위치</p>
-                <p>카테고리</p>
-                <p>처리 상태</p>
-                <p>처리 시간</p>
-                <p>접수하기</p>
+            <div className="chart">
+                <Chart Data={Data} Percentage={Percentage}/>
             </div>
-            {
-                ClaimList[0] && (
-                    ClaimList.map((claim, idx) => {
-                        let processingTime = moment(claim.updatedAt).format('YY-MM-DD[ ]HH:mm');
-                        let processingType = "";
-                        if(claim.processingStatus==="미처리") {
-                            processingType="before";
-                        } else if (claim.processingStatus ==="처리 중") {
-                            processingType="doing";
-                        } else if (claim.processingStatus === "처리 완료") {
-                            processingType="done";
-                        } else {
-                            processingType="hold";
-                        }
-                        return (
-                            <div key={idx} className="claim">
-                                <p>{claim.realTime}</p>
-                                <p>{claim.claimNum}</p>
-                                <p>{claim.location}</p>
-                                <p>{claim.type}</p>
-                                <p className={processingType}>{claim.processingStatus}</p>
-                                <p>{claim.processingStatus === "처리 완료" && processingTime}</p>
-                                <p>
-                                    <Link to={"/ClaimDetail/"+claim.claimNum}>
-                                        <button>
-                                            {claim.processingStatus === "미처리" ? "처리" : "보기"}
-                                        </button>
-                                    </Link>
-                                </p>
-                            </div>
-                        )
-                    })
-                )
-            }
-        </ClaimListDiv>
+        </ClaimChartDiv>
     )
 }
 
-export default ClaimList
+export default ClaimChart
