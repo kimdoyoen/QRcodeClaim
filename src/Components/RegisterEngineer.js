@@ -61,7 +61,7 @@ function RegisterEngineer(props) {
         await axios.post("/api/engineer/user", body).then((response) => {
             if(response.data.success) {
                 alert("등록 성공");
-                props.history.push("/");
+                props.history.push("/login");
             } else {
                 alert("실패");
             }

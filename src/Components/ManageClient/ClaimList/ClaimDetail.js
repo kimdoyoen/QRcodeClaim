@@ -38,9 +38,19 @@ function ClaimDetail(props) {
                 props.history.push("/");
             } else {
                 console.log(response.data.err);
-            }
+            } 
         })
     }
+    
+    useEffect(() => {
+        axios.get("/api/user/auth").then((response) => {
+            if(response.data.isAuth) {
+            } else {
+                props.history.push("/login");
+            }
+        });
+    }, []);
+
 
     useEffect(() => {
         let body = {

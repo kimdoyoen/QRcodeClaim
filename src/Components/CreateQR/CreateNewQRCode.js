@@ -3,15 +3,18 @@ import { withRouter } from 'react-router-dom';
 import Select from "react-select";
 import QRCode from 'react-qr-code';
 import axios from 'axios';
+import domtoimage from 'dom-to-image';
+import { saveAs } from 'file-saver';
 
 import ToiletFilter from './filter/ToiletFilter.js';
 import TrainFilter from './filter/TrainFilter.js';
 import EVFilter from './filter/EVFilter.js';
 import { ReactComponent as Triangle } from "./Triangle.svg";
+import Save from "./save.svg";
 import { CreateBody, CreateDiv, QRListDiv } from "./CreateQRCSS.js";
 
 function CreateNewQRCode(props) {
-    const [CodeUrl, setCodeUrl] = useState("");
+    const [CodeIdx, setCodeIdx] = useState(-1);
     const [QRLocation, setQRLocation] = useState("");
     const [QRType, setQRType] = useState("");
     const [QRList, setQRList] = useState([]);
@@ -134,7 +137,7 @@ function CreateNewQRCode(props) {
                 if(!response.data.isDuplicate) {
                     axios.post("/api/qrcode/createQR", body).then((result) => {
                         if(result.data.success) {
-                            setCodeUrl(result.data.url);
+                            setCodeIdx(result.data.Idx);
                         }
                     });
                 }
@@ -147,6 +150,24 @@ function CreateNewQRCode(props) {
             }
         })
     }
+
+    const ImageSaveHandler = () => {
+        console.log(QRLocation);
+        domtoimage
+        .toBlob(document.querySelector('.codeContainer'))
+        .then((blob) => {
+            saveAs(blob, `${QRList[CodeIdx].location}`);
+        });
+    }
+
+    useEffect(() => {
+        axios.get("/api/user/auth").then((response) => {
+            if(response.data.isAuth) {
+            } else {
+                props.history.push("/login");
+            }
+        });
+    }, []);
 
     useEffect(() => {
         
@@ -190,11 +211,11 @@ function CreateNewQRCode(props) {
                 {setFilter()}
             </div>
             {
-                CodeUrl !== "" && (
+                CodeIdx !== -1 && (
                     <>
                     <div className="codeContainer">
                         <div className="QR">
-                            <QRCode value={"http://localhost/submitClaim/"+CodeUrl} size="400" />
+                            <QRCode value={"http://localhost/submitClaim/"+QRList[CodeIdx].url} size="400" />
                         </div>
                         <div className="desc">
                             <Triangle /> <br />
@@ -202,7 +223,7 @@ function CreateNewQRCode(props) {
                             민원을 접수해보세요
                         </div>
                     </div>
-                    <button onClick={() => {props.history.push("/")}}>완료</button>
+                    <img src={Save} style={{width:"2rem", float: "right", margin: "10px"}} onClick={ImageSaveHandler} />
                     </>
                 )
             }
@@ -212,15 +233,16 @@ function CreateNewQRCode(props) {
             <div className="qrList">
                 {
                     QRList.map((qr, idx) => {
-                        if(CodeUrl === qr.url)
-                            return <p onClick={() => setCodeUrl("")} className="active">{qr.location}</p>
-                        else return <p onClick={() => setCodeUrl(qr.url)}>{qr.location}</p>
+                        if(CodeIdx !== idx)
+                            return <p onClick={() => setCodeIdx(-1)} className="active">{qr.location}</p>
+                        else return <p onClick={() => setCodeIdx(idx)}>{qr.location}</p>
                     })
                 }
             </div>
         </QRListDiv>
         <div className="btnDiv">
             <button onClick={() => {props.history.push("/")}}>취소</button>
+            <button onClick={() => {props.history.push("/")}} style={{marginLeft: "2rem"}}>완료</button>
         </div>
         </CreateBody>
     )

@@ -17,22 +17,11 @@ function Main(props) {
     useEffect(() => {
         axios.get("/api/user/auth").then((response) => {
             if(response.data.isAuth) {
-                alert("토큰 존재");
             } else {
-                alert("토큰 없음");
-                props.history.goBack();
+                props.history.push("/login");
             }
         });
     }, []);
-
-    // axios.get("/api/login/auth").then((response) => {
-    //     if(response.data.success) {
-    //         alert("토큰 존재");
-    //     } else {
-    //         alert("토큰 없음");
-    //     }
-    // });
-
 
     useEffect(() => {
         setSocket(socketio.connect("http://localhost:5000"));
@@ -53,12 +42,11 @@ function Main(props) {
 
 
     const LogoutHandler = async() => {
-        await axios.post("api/user/logout").then((response) => {
+        await axios.post("/api/user/logout").then((response) => {
             if(response.data.success) {
-                alert("로그아웃 성공");
-                props.history.push("login");
+                props.history.push("/login");
             } else {
-                alert("에러 발생");
+                alert("다시 시도해주십시오.");
             }
         })
     }
