@@ -19,10 +19,10 @@ function App() {
         <Route exact path="/" component={Main} />
         <Route exact path="/makeNewQR" component={CreateNewQRCode} />
         <Route exact path="/login" component={Login} />
-        {
-        //<Route exact path="/registerEngineer" component={RegisterEngineer} />
-        //<Route exact path="/EngineerList" component={EngineerList} />
-        }
+        
+        <Route exact path="/registerEngineer" component={RegisterEngineer} />
+        <Route exact path="/EngineerList" component={EngineerList} />
+        
         <Route exact path="/SubmitClaim/:url" component={SubmitClaim} />
         <Route exact path="/ClaimResultCheck/:url" component={ClaimResultCheck} />
         <Route exact path="/ClaimDetail/:url" component={ClaimDetail} />

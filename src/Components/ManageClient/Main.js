@@ -7,10 +7,32 @@ import ClaimChart from './ClaimChart/ClaimChart.js';
 import NewClaimAlarm from './NewClaimAlarm.js';
 import { ManageBody, HeaderDiv } from "./ManageClientCSS.js";
 
-function Main() {
+import axios from 'axios';
+
+function Main(props) {
     const [Category, setCategory] = useState("민원 리스트");
     const [Socket, setSocket] = useState();
     const [NewClaim, setNewClaim] = useState({});
+
+    useEffect(() => {
+        axios.get("/api/user/auth").then((response) => {
+            if(response.data.isAuth) {
+                alert("토큰 존재");
+            } else {
+                alert("토큰 없음");
+                props.history.goBack();
+            }
+        });
+    }, []);
+
+    // axios.get("/api/login/auth").then((response) => {
+    //     if(response.data.success) {
+    //         alert("토큰 존재");
+    //     } else {
+    //         alert("토큰 없음");
+    //     }
+    // });
+
 
     useEffect(() => {
         setSocket(socketio.connect("http://localhost:5000"));
@@ -29,6 +51,18 @@ function Main() {
         }
     }, [Socket]);
 
+
+    const LogoutHandler = async() => {
+        await axios.post("api/user/logout").then((response) => {
+            if(response.data.success) {
+                alert("로그아웃 성공");
+                props.history.push("login");
+            } else {
+                alert("에러 발생");
+            }
+        })
+    }
+
     return (
         <ManageBody>
             <HeaderDiv>
@@ -38,6 +72,7 @@ function Main() {
                     <Link to="/makeNewQR" style={{marginBottom: "50px"}}>
                         <button className="active">QR code 생성하기</button>
                     </Link>
+                    <button className="active" onClick={LogoutHandler}>로그아웃</button>
                 </div>
             </HeaderDiv>
             {
