@@ -14,6 +14,23 @@ router.post("/user", (req, res) => {
     });
 });
 
+router.post("/idcheck", (req, res) => {
+    User.findOne({ userID : req.body.userID }, (err, user) => {
+        if(!user) {
+            return res.json({
+                success: true,
+                message: "해당하는 ID가 존재하지 않습니다."
+            });
+        }
+        else {
+            return res.json({
+                success: false,
+                message: "해당하는 ID가 존재합니다."
+            });
+        }
+    });
+})
+
 
 module.exports = router;
 

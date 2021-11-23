@@ -1,3 +1,4 @@
+import { assertExportDefaultSpecifier } from '@babel/types';
 import axios from 'axios';
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
@@ -12,6 +13,7 @@ function RegisterEngineer(props) {
     const [PhoneNumber3, setPhoneNumber3] = useState("");
     const [Email, setEmail] = useState("");
     const [Pos, setPos] = useState("");
+    var Idchecked = false;
 
     const SubmitHandler = async() => {
         if(!Pos) {
@@ -46,6 +48,10 @@ function RegisterEngineer(props) {
             alert("이메일을 입력해주세요");
             return;
         }
+        if(!Idchecked) {
+            alert("아이디 중복 확인해주세요.");
+            return;
+        }
 
 
         let body = {
@@ -68,6 +74,27 @@ function RegisterEngineer(props) {
         });
     };
 
+    const IdCheck = async() => {
+        if(!ID) {
+            alert("아이디를 입력해주세요.");
+            return;
+        }
+
+        let body = {
+            userID: ID
+        }
+
+        await axios.post("/api/engineer/idcheck", body).then((response) => {
+            if(response.data.success) {
+                alert("사용 가능한 아이디입니다!");
+                Idchecked = true;
+            }
+            else {
+                alert("사용 불가능한 아이디입니다.")
+            }
+        });
+    };
+
     return (
         <div>
             <div>
@@ -77,6 +104,9 @@ function RegisterEngineer(props) {
             <div>
                 아이디
                 <input value={ID} onChange={(e)=> setID(e.currentTarget.value)} />
+            </div>
+            <div>
+                <button onClick={IdCheck}>아이디 중복 확인</button>
             </div>
             <div>
                 비밀번호
