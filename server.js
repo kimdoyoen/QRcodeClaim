@@ -3,6 +3,7 @@ const path = require("path");
 const app = express();
 const http = require("http").createServer(app);
 const config = require('./config.js');
+const cookieParser = require('cookie-parser');
 const mongoose = require("mongoose");
 
 const options = {
@@ -28,9 +29,12 @@ app.use(function(req, res, next) {
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
 
 app.use("/api/qrcode", require("./router/qrcode.js"));
 app.use("/api/claim", require("./router/claim.js"));
+app.use("/api/engineer", require("./router/engineer.js"));
+app.use("/api/user", require("./router/user.js"));
 
 const port = 5000;
 
