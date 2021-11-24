@@ -38,10 +38,7 @@ router.get("/auth", auth, function(req, res) {
     res.status(200).json({
         _id: req.user._id,
         isAuth: true,
-        userID: req.user.userID,
-        phone: req.user.phone,
-        email: req.user.phone,
-        type: req.user.type
+        user: req.user,
     });
 });
 
@@ -51,5 +48,15 @@ router.post("/logout", auth, (req, res) => {
         return res.status(200).json({success: true});
     });
 });
+
+router.post("/getEngineerList", (req, res) => {
+    User.find({type: "설비담당자"})
+    .exec()
+    .then((eng, err) => {
+        console.log(err);
+        if(err) return res.json({ success: false, err });
+        return res.status(200).json({success: true, engineer: eng});
+    })
+})
 
 module.exports = router;

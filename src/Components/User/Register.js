@@ -3,7 +3,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 
-function RegisterEngineer(props) {
+function Register(props) {
     const [Name, setName] = useState("");
     const [ID, setID] = useState("");
     const [Password, setPassword] = useState("");
@@ -140,4 +140,4 @@ function RegisterEngineer(props) {
     )
 }
 
-export default withRouter(RegisterEngineer)
+export default withRouter(Register)

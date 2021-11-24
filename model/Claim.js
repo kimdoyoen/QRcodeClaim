@@ -32,6 +32,10 @@ const ClaimSchema = new Schema({
     processingContent: {
       type: String,
     },
+    engineer: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
     realTime: {
       type: String,
       default: realTime(),

@@ -26,10 +26,8 @@ function Login(props) {
 
         await axios.post("/api/user/login", body).then((response) => {
             if(response.data.success) {
-                alert("로그인 성공");
                 props.history.push("/");
             } else {
-                alert("로그인 실패");
             }
         });
     };
@@ -49,7 +47,7 @@ function Login(props) {
             </div>
             <div className="btnDiv">
                 <button onClick={SubmitHandler}>로그인</button>
-                <Link to="../registerEngineer">
+                <Link to="/register">
                     <button>회원가입</button>
                 </Link>
             </div>

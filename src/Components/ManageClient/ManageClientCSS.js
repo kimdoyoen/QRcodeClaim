@@ -200,6 +200,10 @@ const ProcessingDiv = styled.div`
     .status {
         height: 20vh;
         font-size: 20px;
+        margin-top: 1rem;
+        .engineer {
+            margin-top: 1rem;
+        }
     }
     .content {
         height: 15rem;

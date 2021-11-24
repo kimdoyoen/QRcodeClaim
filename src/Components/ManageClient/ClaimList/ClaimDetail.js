@@ -6,6 +6,7 @@ import axios from "axios";
 import { ManageBody, BackHeadDiv, ClaimInfoDiv, ProcessingDiv, SaveBtn } from '../ManageClientCSS';
 
 function ClaimDetail(props) {
+    const [User, setUser] = useState({});
     const [ClaimInfo, setClaimInfo] = useState({});
     const [ChangeStatus, setChangeStatus] = useState("");
     const [ChangeContent, setChangeContent] = useState("");
@@ -15,6 +16,9 @@ function ClaimDetail(props) {
         {value: "보류", label: "보류"},
         {value: "처리 완료", label: "처리 완료"},
     ]);
+    const [EngineerOpt, setEngineerOpt] = useState([]);
+    const [EngineerList, setEngineerList] = useState([]);
+    const [Engineer, setEngineer] = useState({});
 
     const SelectStyles = {
         container: (provide) => ({
@@ -26,11 +30,19 @@ function ClaimDetail(props) {
     };
 
     const SaveHandler = () => {
-        let body = {
-            claimNum: ClaimInfo.claimNum,
-            processingStatus: ChangeStatus,
-            processingContent: ChangeContent,
-        };
+        let body = {};
+        if(User.type==='관리자' && !ClaimInfo.engineer) {
+            body = {
+                claimNum: ClaimInfo.claimNum,
+                engineer: Engineer._id,
+            }
+        } else if (User.type==="설비담당자") {
+            body = {
+                claimNum: ClaimInfo.claimNum,
+                processingStatus: ChangeStatus,
+                processingContent: ChangeContent,
+            };
+        } else return;
 
         axios.post("/api/claim/saveProcessing", body).then((response) => {
             if(response.data.success) {
@@ -45,12 +57,28 @@ function ClaimDetail(props) {
     useEffect(() => {
         axios.get("/api/user/auth").then((response) => {
             if(response.data.isAuth) {
+                setUser({...response.data.user});
+                console.log(response.data.user);
             } else {
                 props.history.push("/login");
             }
         });
     }, []);
 
+    useEffect(() => {
+        axios.post("/api/user/getEngineerList").then((response) => {
+            if(response.data.success) {
+                let temp = [...response.data.engineer];
+                setEngineerList(temp);
+                setEngineerOpt([]);
+                let newOpt = [];
+                for(let i = 0; i<temp.length; i++) {
+                    newOpt.push({value: i, label: temp[i].name});
+                }
+                setEngineerOpt(newOpt);
+            }
+        })
+    }, []);
 
     useEffect(() => {
         let body = {
@@ -66,7 +94,11 @@ function ClaimDetail(props) {
                 console.log(response.data.err);
             }
         })
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        console.log(EngineerOpt);
+    }, [EngineerOpt])
 
     useEffect(() => {
         if(ClaimInfo.processingStatus === "처리 중" || ClaimInfo.processingStatus === "보류") {
@@ -105,22 +137,44 @@ function ClaimDetail(props) {
                     </ClaimInfoDiv>
                     <ProcessingDiv>
                         <div className="status">
-                            <p>
+                            <div>
                                 처리 상태 : 
                                 {
-                                    ClaimInfo.processingStatus === "처리 완료"
-                                    ? "처리 완료"
-                                    : <Select
+                                    ClaimInfo.engineer && User._id === ClaimInfo.engineer._id && ClaimInfo.processingStatus !== "처리 완료"
+                                    ? <Select
                                         options={Options}
                                         styles={SelectStyles}
                                         placeholder={ClaimInfo.processingStatus}
                                         onChange={(e) => setChangeStatus(e.value)}
                                         />
+                                    : ClaimInfo.processingStatus
                                 }
-                            </p>
+                            </div>
                             {
                                 ( ChangeStatus==="보류" || ChangeStatus === "처리 완료" ) && <p>조치 내용</p>
                             }
+                            <div className="engineer">
+                                <div>
+                                    담당자 : 
+                                    {
+                                        User.type === "관리자" && !ClaimInfo.engineer
+                                        ? <Select
+                                            options={EngineerOpt}
+                                            styles={SelectStyles}
+                                            placeholder="미배정"
+                                            onChange={(e) => setEngineer({...EngineerList[e.value]})}
+                                            />
+                                        : (
+                                            ClaimInfo.engineer
+                                            ? ClaimInfo.engineer.name
+                                            : "미배정"
+                                        )
+                                    }
+                                </div>
+                                {
+                                    ( ChangeStatus==="보류" || ChangeStatus === "처리 완료" ) && <p>조치 내용</p>
+                                }
+                            </div>
                         </div>
                         {
                             (ChangeStatus==="보류" || ChangeStatus==="처리 완료") && (

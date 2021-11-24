@@ -10,11 +10,12 @@ require("moment-timezone");
 moment.tz.setDefault("Asia/Seoul");
 
 router.post("/", (req, res) => {
-
+    console.log(req.body);
     Claim.find(req.body)
     .sort({createdAt: -1})
     .exec()
     .then((claims) => {
+        console.log(claims);
         return res.status(200).send({success: true, claims: claims});
     })
     .catch((err) => {
@@ -25,7 +26,6 @@ router.post("/", (req, res) => {
 
 router.post("/claimSubmit", (req, res) => {
     let temp = req.body;
-    console.log(temp);
     if (temp.type === "화장실") {
         temp.claimNum = "T";
     } else if (temp.type === "객차 안") {
@@ -53,6 +53,7 @@ router.post("/claimSubmit", (req, res) => {
 
 router.post("/getClaimInfo", (req, res) => {
     Claim.findOne({claimNum: req.body.claimNum})
+    .populate("engineer")
     .exec()
     .then((claim) => {
         return res.status(200).send({success: true, claim: claim});
@@ -66,10 +67,7 @@ router.post("/getClaimInfo", (req, res) => {
 router.post("/saveProcessing", (req, res) => {
     Claim.findOneAndUpdate(
         {claimNum: req.body.claimNum},
-        {
-            processingStatus: req.body.processingStatus,
-            processingContent: req.body.processingContent
-        })
+        req.body)
         .exec()
         .then((response) => {
             return res.status(200).send({success: true});
@@ -262,7 +260,6 @@ router.post("/getStatistics", (req, res) => {
             }
             if(idx === result.length) break;
         }
-        console.log(temp2);
         return res.status(200).send({success: true, pureData: temp, percentage: temp2});
     })
     .catch((err) => {

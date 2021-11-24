@@ -179,27 +179,6 @@ function CreateNewQRCode(props) {
         })
     }, []);
 
-    /*
-    useEffect(() => {
-        axios.post("/api/engineer/getEngineerList").then((response) => {
-            if(response.data.success) {
-                let temp = [...response.data.engineer];
-                setEngineerList(temp);
-                setOptions([]);
-                let newOpt = [...Options];
-                for(let i = 0; i<temp.length; i++) {
-                    newOpt.push({value: i, label: temp[i].name});
-                }
-                setOptions(newOpt);
-            }
-        })
-    }, []);
-
-    useEffect(() => {
-        console.log(Options);
-    }, [Options])
-    */
-
     return (
         <CreateBody>
             <CreateDiv>

@@ -67,6 +67,7 @@ function ClaimList(props) {
                 endDate: new Date(),
                 key: "selection",   
             }])
+            setProcessingState("전체");
         }
         setFilter(e.value);
     }
