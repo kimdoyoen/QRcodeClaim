@@ -3,7 +3,9 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 
-function Register(props) {
+import { RegDiv } from "./RegisterCSS.js";
+
+function RegisterEngineer(props) {
     const [Name, setName] = useState("");
     const [ID, setID] = useState("");
     const [Password, setPassword] = useState("");
@@ -96,48 +98,61 @@ function Register(props) {
     };
 
     return (
-        <div>
-            <div>
-                이름
-                <input value={Name} onChange={(e)=> setName(e.currentTarget.value)} />
+        <RegDiv>
+            <table>
+                <thead></thead>
+                <tbody>
+                    <tr>
+                        <td>이름</td>
+                        <td><input value={Name} size="25" onChange={(e)=> setName(e.currentTarget.value)} /></td>
+                    </tr>
+                    <tr>
+                        <td>아이디</td>
+                        <td><input value={ID} size="25" onChange={(e)=> setID(e.currentTarget.value)} /></td>
+                    </tr>
+                    <tr classname="idcheck">
+                        <td></td>
+                        <td><button onClick={IdCheck}>아이디 중복 확인</button></td>
+                    </tr>
+                    <tr>
+                        <td>비밀번호</td>
+                        <td><input type="password" value={Password} size="25" onChange={(e)=> setPassword(e.currentTarget.value)} /></td>
+                    </tr>
+                    <tr>
+                        <td>비밀번호 확인</td>
+                        <td><input type="password" value={PasswordRe} size="25" onChange={(e)=> setPasswordRe(e.currentTarget.value)} /></td>
+                    </tr>
+                    <tr>
+                        <td>전화번호</td>
+                        <td>
+                            <input value={PhoneNumber1} maxLength="4" size="4" onChange={(e)=> setPhoneNumber1(e.currentTarget.value)} />
+                            -
+                            <input value={PhoneNumber2} maxLength="4" size="4" onChange={(e)=> setPhoneNumber2(e.currentTarget.value)} />
+                            -
+                            <input value={PhoneNumber3} maxLength="4" size="4" onChange={(e)=> setPhoneNumber3(e.currentTarget.value)} />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>이메일</td>
+                        <td><input type="email" value={Email} size="25" onChange={(e)=> setEmail(e.currentTarget.value)} /></td>
+                    </tr>
+                    <tr>
+                        <td>역할</td>
+                        <td>
+                            <div>
+                                <label><input type="radio" name="Position" onChange={(e)=> setPos("관리자")} /> 관리자</label>
+                                <label><input type="radio" name="Position" onChange={(e)=> setPos("설비담당자")} /> 담당자</label>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div className="btnDiv">
+                <button classname="btnDiv" onClick={() => {props.history.push("/login")}}>취소</button>
+                <button onClick={SubmitHandler}>완료</button>
             </div>
-            <div>
-                아이디
-                <input value={ID} onChange={(e)=> setID(e.currentTarget.value)} />
-            </div>
-            <div>
-                <button onClick={IdCheck}>아이디 중복 확인</button>
-            </div>
-            <div>
-                비밀번호
-                <input type="password" value={Password} onChange={(e)=> setPassword(e.currentTarget.value)} />
-            </div>
-            <div>
-                비밀번호 확인
-                <input type="password" value={PasswordRe} onChange={(e)=> setPasswordRe(e.currentTarget.value)} />
-            </div>
-            <div>
-                전화번호
-                <input value={PhoneNumber1} maxLength="4" onChange={(e)=> setPhoneNumber1(e.currentTarget.value)} />
-                -
-                <input value={PhoneNumber2} maxLength="4" onChange={(e)=> setPhoneNumber2(e.currentTarget.value)} />
-                -
-                <input value={PhoneNumber3} maxLength="4" onChange={(e)=> setPhoneNumber3(e.currentTarget.value)} />
-            </div>
-            <div>
-                이메일
-                <input type="email" value={Email} onChange={(e)=> setEmail(e.currentTarget.value)} />
-            </div>
-            <div>
-                역할
-                <label><input type="radio" name="Position" onChange={(e)=> setPos("관리자")} />관리자</label>
-                <label><input type="radio" name="Position" onChange={(e)=> setPos("설비담당자")} />설비 담당자</label>
-            </div>
-
-            <button onClick={() => {props.history.push("/login")}}>취소</button>
-            <button onClick={SubmitHandler}>등록하기</button>
-        </div>
+        </RegDiv>
     )
 }
 
-export default withRouter(Register)
+export default withRouter(RegisterEngineer)
