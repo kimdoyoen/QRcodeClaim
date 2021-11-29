@@ -150,9 +150,6 @@ function ClaimDetail(props) {
                                     : ClaimInfo.processingStatus
                                 }
                             </div>
-                            {
-                                ( ChangeStatus==="보류" || ChangeStatus === "처리 완료" ) && <p>조치 내용</p>
-                            }
                             <div className="engineer">
                                 <div>
                                     담당자 : 

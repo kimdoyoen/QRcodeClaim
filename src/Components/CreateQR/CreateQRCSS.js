@@ -101,12 +101,12 @@ const CreateDiv = styled.div`
             border: 1rem solid;
         }
         .desc {
-            font-size: 40px;
+            font-size: 15px;
             font-weight: bold;
             text-align: center;
             svg {
-                width: 5rem;
-                height: 5rem;
+                width: 3rem;
+                height: 3rem;
             }
         }
     }

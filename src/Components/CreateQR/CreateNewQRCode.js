@@ -137,7 +137,7 @@ function CreateNewQRCode(props) {
                 if(!response.data.isDuplicate) {
                     axios.post("/api/qrcode/createQR", body).then((result) => {
                         if(result.data.success) {
-                            setCodeIdx(result.data.Idx);
+                            window.reload();
                         }
                     });
                 }
@@ -183,7 +183,7 @@ function CreateNewQRCode(props) {
         <CreateBody>
             <CreateDiv>
             <div className="category">
-                <Select options={options}  styles={SelectStyles} placeholder="카테고리 선택" onChange={(e) => { setQRType(e.value); setQRLocation("") }} />
+                <Select options={options}  styles={SelectStyles} placeholder="카테고리 선택" onChange={(e) => { setQRType(e.value); setQRLocation(""); setCodeIdx(-1);}} />
                 <button className="createBtn" onClick={(e) => {SubmitHandler(e)}}>코드 생성</button>
             </div>
             <div className="filter">
@@ -194,12 +194,12 @@ function CreateNewQRCode(props) {
                     <>
                     <div className="codeContainer">
                         <div className="QR">
-                            <QRCode value={"http://localhost/submitClaim/"+QRList[CodeIdx].url} size="400" />
+                            <QRCode value={"http://localhost/submitClaim/"+QRList[CodeIdx].url} size="200" />
                         </div>
                         <div className="desc">
                             <Triangle /> <br />
-                            QR코드를 스캔하여 <br />
-                            민원을 접수해보세요
+                            QR코드를 스캔하여 민원을 접수해보세요.<br />
+                            전화・문자 접수 : 1577-1234
                         </div>
                     </div>
                     <img src={Save} style={{width:"2rem", float: "right", margin: "10px"}} onClick={ImageSaveHandler} />
@@ -212,9 +212,9 @@ function CreateNewQRCode(props) {
             <div className="qrList">
                 {
                     QRList.map((qr, idx) => {
-                        if(CodeIdx !== idx)
+                        if(CodeIdx === idx)
                             return <p onClick={() => setCodeIdx(-1)} className="active">{qr.location}</p>
-                        else return <p onClick={() => setCodeIdx(idx)}>{qr.location}</p>
+                        else return <p onClick={() => { setCodeIdx(idx); setQRType("");}}>{qr.location}</p>
                     })
                 }
             </div>

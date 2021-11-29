@@ -28,6 +28,7 @@ function Login(props) {
             if(response.data.success) {
                 props.history.push("/");
             } else {
+                alert("에러")
             }
         });
     };
