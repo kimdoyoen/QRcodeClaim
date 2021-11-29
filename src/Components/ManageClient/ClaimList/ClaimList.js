@@ -158,7 +158,7 @@ function ClaimList(props) {
                 <p>카테고리</p>
                 <p>처리 상태</p>
                 <p>처리 시간</p>
-                <p>접수하기</p>
+                <p>처리하기</p>
             </div>
             {
                 ClaimList[0] && (

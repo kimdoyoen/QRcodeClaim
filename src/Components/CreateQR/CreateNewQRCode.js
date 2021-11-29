@@ -137,7 +137,7 @@ function CreateNewQRCode(props) {
                 if(!response.data.isDuplicate) {
                     axios.post("/api/qrcode/createQR", body).then((result) => {
                         if(result.data.success) {
-                            window.reload();
+                            //window.reload();
                         }
                     });
                 }
@@ -194,7 +194,7 @@ function CreateNewQRCode(props) {
                     <>
                     <div className="codeContainer">
                         <div className="QR">
-                            <QRCode value={"http://localhost/submitClaim/"+QRList[CodeIdx].url} size="200" />
+                            <QRCode value={"http://192.168.10.81:3000/submitClaim/"+QRList[CodeIdx].url} size="200" />
                         </div>
                         <div className="desc">
                             <Triangle /> <br />
