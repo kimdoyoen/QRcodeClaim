@@ -4,7 +4,7 @@ import Select from 'react-select';
 function ToiletFilter(props) {
     const [Floor, setFloor] = useState(0);
     const [UnderFlag, setUnderFlag] = useState("");
-    const [SerialNum, setSerialNum] = useState(0);
+    const [SlotNum, setSlotNum] = useState(0);
     const [Kind, setKind] = useState("");
 
     const options = [
@@ -31,8 +31,8 @@ function ToiletFilter(props) {
     };
 
     useEffect(() => {
-        props.setQRLocation(UnderFlag + Floor + "-" + SerialNum + "-" + Kind);
-    }, [Floor, UnderFlag, SerialNum, Kind]);
+        props.setQRLocation(UnderFlag + Floor + "-" + Kind + "-" + SlotNum);
+    }, [Floor, UnderFlag, SlotNum, Kind]);
 
     return (
         <>
@@ -43,11 +43,11 @@ function ToiletFilter(props) {
                 <input type="checkbox" value="지하" onClick={(e) => { if(e.target.checked) setUnderFlag("B"); else setUnderFlag(""); }} />
                 지하
             </label>
-            <p>화장실 번호</p>
-            <input type="number" className="inputBox" value={SerialNum} onChange={(e) => { if(e.currentTarget.value >= 0) setSerialNum(e.currentTarget.value)}}/>
         </div>
         <p>종류</p>
         <Select options={options}  styles={SelectStyles} placeholder="종류 선택" onChange={(e) => setKind(e.value)} />
+        <p>화장실 칸 번호</p>
+        <input type="number" className="inputBox" value={SlotNum} onChange={(e) => { if(e.currentTarget.value >= 0) setSlotNum(e.currentTarget.value)}}/>
         </>
     )
 }

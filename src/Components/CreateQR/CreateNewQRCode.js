@@ -137,7 +137,7 @@ function CreateNewQRCode(props) {
                 if(!response.data.isDuplicate) {
                     axios.post("/api/qrcode/createQR", body).then((result) => {
                         if(result.data.success) {
-                            //window.reload();
+                            window.location.reload();
                         }
                     });
                 }
@@ -194,11 +194,12 @@ function CreateNewQRCode(props) {
                     <>
                     <div className="codeContainer">
                         <div className="QR">
-                            <QRCode value={"http://192.168.10.81:3000/submitClaim/"+QRList[CodeIdx].url} size="200" />
+                            <QRCode value={"http://localhost:3000/submitClaim/"+QRList[CodeIdx].url} size="200" />
                         </div>
                         <div className="desc">
                             <Triangle /> <br />
-                            QR코드를 스캔하여 민원을 접수해보세요.<br />
+                            QR코드를 스캔하여<br />
+                            {QRList[CodeIdx].type}의 민원을 접수해보세요.<br />
                             전화・문자 접수 : 1577-1234
                         </div>
                     </div>
@@ -213,8 +214,8 @@ function CreateNewQRCode(props) {
                 {
                     QRList.map((qr, idx) => {
                         if(CodeIdx === idx)
-                            return <p onClick={() => setCodeIdx(-1)} className="active">{qr.location}</p>
-                        else return <p onClick={() => { setCodeIdx(idx); setQRType("");}}>{qr.location}</p>
+                            return <p onClick={() => setCodeIdx(-1)} className="active">{qr.type}({qr.location})</p>
+                        else return <p onClick={() => { setCodeIdx(idx); setQRType("");}}>{qr.type}({qr.location})</p>
                     })
                 }
             </div>

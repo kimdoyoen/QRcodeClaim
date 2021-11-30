@@ -163,7 +163,7 @@ function ClaimDetail(props) {
                                             />
                                         : (
                                             ClaimInfo.engineer
-                                            ? ClaimInfo.engineer.name
+                                            ? ClaimInfo.engineer.name + "(연락처 : " + ClaimInfo.engineer.phone+")"
                                             : "미배정"
                                         )
                                     }
