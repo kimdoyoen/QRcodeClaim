@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 
 function EVFilter(props) {
+    const [Station, setStation] = useState("");
     const [Kind, setKind] = useState("");
     const [Location, setLocation] = useState("");
 
@@ -33,11 +34,13 @@ function EVFilter(props) {
     };
 
     useEffect(() => {
-        props.setQRLocation(Kind+"-"+Location);
-    }, [Kind, Location])
+        props.setQRLocation(Station+"_"+Kind+"_"+Location);
+    }, [Station, Kind, Location])
 
     return (
         <>
+        <p>역사 코드</p>
+        <input type="text" className="inputBox" value={Station} onChange={(e) => setStation(e.currentTarget.value)}/>
         <p>종류</p>
         <Select options={options}  styles={SelectStyles} onChange={(e) => { setKind(e.value); setLocation(""); }} />
         <p>번호</p>

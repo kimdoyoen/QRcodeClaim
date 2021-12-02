@@ -10,8 +10,10 @@ require("moment-timezone");
 moment.tz.setDefault("Asia/Seoul");
 
 router.post("/", (req, res) => {
+    let sort = req.body.sort;
+    delete req.body.sort;
     Claim.find(req.body)
-    .sort({createdAt: -1})
+    .sort(sort)
     .exec()
     .then((claims) => {
         return res.status(200).send({success: true, claims: claims});

@@ -2,6 +2,7 @@ import React, { useState, useEffect} from 'react';
 import Select from 'react-select';
 
 function ToiletFilter(props) {
+    const [Station, setStation] = useState("");
     const [Floor, setFloor] = useState(0);
     const [UnderFlag, setUnderFlag] = useState("");
     const [SlotNum, setSlotNum] = useState(0);
@@ -31,12 +32,14 @@ function ToiletFilter(props) {
     };
 
     useEffect(() => {
-        props.setQRLocation(UnderFlag + Floor + "-" + Kind + "-" + SlotNum);
-    }, [Floor, UnderFlag, SlotNum, Kind]);
+        props.setQRLocation(Station+"_"+UnderFlag + Floor + "_" + Kind + "_" + SlotNum);
+    }, [Station, Floor, UnderFlag, SlotNum, Kind]);
 
     return (
         <>
         <div style={{width: "100%", marginBottom: "10px"}}>
+            <p>역사 코드</p>
+            <input type="text" className="inputBox" value={Station} onChange={(e) => setStation(e.currentTarget.value)}/>
             <p>화장실 층</p>
             <input type="number" className="inputBox" value={Floor} onChange={(e) => { if(e.currentTarget.value >= 0) setFloor(e.currentTarget.value)}}/>
             <label style={{ marginRight: "2rem"}}>

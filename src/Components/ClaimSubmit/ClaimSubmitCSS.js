@@ -139,26 +139,39 @@ const CompleteDiv = styled.div`
 `;
 
 const ClaimResultDiv = styled.div`
-    display: grid;
-    grid-auto-columns: 4fr 6fr;
-    gird-row: 1fr 1fr 1fr 1fr 1fr 1fr;
-	grid-auto-flow: row;
+    .result {
+        display: grid;
+        grid-auto-columns: 4fr 6fr;
+        gird-row: 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-auto-flow: row;
 
-	align-items: stretch;
-	justify-items: stretch;
-    align-content: center;
+        align-items: stretch;
+        justify-items: stretch;
+        align-content: center;
 
-    height: 100vh;
+        height: auto;
+        margin-top: 5rem;
 
-    p {
-        margin: 0;
-        padding: 1rem;
+        p {
+            margin: 0;
+            padding: 1rem;
+        }
+        .label {
+            background: rgb(169, 219, 253);
+        }
+        p:nth-child(2n) {
+            grid-column: 2;
+        }
     }
-    .label {
+    button {
         background: rgb(169, 219, 253);
-    }
-    p:nth-child(2n) {
-        grid-column: 2;
+        width: 70%;
+        margin: 0 15%;
+        padding: 1rem;
+        margin-top: 3rem;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
     }
 `;
 

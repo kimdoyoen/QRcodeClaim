@@ -10,8 +10,13 @@ import { ClaimListDiv, FilterDiv } from '../ManageClientCSS.js';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; 
 
+import { ReactComponent as SortDown } from "../sort-down-solid.svg";
+import { ReactComponent as SortUp } from "../sort-up-solid.svg";
+
 function ClaimList(props) {
     const [ClaimList, setClaimList] = useState([]);
+    const [Sort, setSort] = useState("");
+    const [SortType, setSortType] = useState(false);
     const [Filter, setFilter] = useState("");
     const [Category, setCategory] = useState("전체");
     const [ProcessingState, setProcessingState] = useState("전체");
@@ -72,7 +77,7 @@ function ClaimList(props) {
         setFilter(e.value);
     }
 
-    const getClaimList = () => {
+    const getClaimList = (sort) => {
         if(Filter === "전체" || DateFilter === "전체" || DateFilter === "선택 완료") {
             let body = {
                 type: Category,
@@ -91,6 +96,14 @@ function ClaimList(props) {
             if(ProcessingState !== "전체") {
                 body.processingStatus = ProcessingState;
             }
+            if(sort) {
+                body.sort = sort;
+            } else {
+                body.sort = {
+                    createdAt: -1
+                }
+            }
+            console.log(body);
             axios.post("/api/claim", body).then((response) => {
                 if(response.data.success) {
                     let temp = [...response.data.claims];
@@ -100,6 +113,37 @@ function ClaimList(props) {
                     console.log(response.data.err);
                 }
             })
+        }
+    }
+
+    const SortHandler = (type) => {
+        if(type === Sort && !SortType) {
+            setSortType(true);
+            if(type==="접수시간") {
+                getClaimList({createdAt: 1});
+            } else if(type==="접수번호") {
+                getClaimList({claimNum: 1});
+            } else if(type==="카테고리") {
+                getClaimList({type: 1});
+            } else if(type==="처리상태") {
+                getClaimList({processingStatus: 1,});
+            }
+        } else if (type===Sort && SortType) {
+            setSort("");
+            setSortType(false);
+            getClaimList({createdAt: -1});
+        } else {
+            setSort(type);
+            setSortType(false);
+            if(type==="접수시간") {
+                getClaimList({createdAt: -1});
+            } else if(type==="접수번호") {
+                getClaimList({claimNum: -1});
+            } else if(type==="카테고리") {
+                getClaimList({type: -1});
+            } else if(type==="처리상태") {
+                getClaimList({processingStatus: -1});
+            }
         }
     }
 
@@ -152,11 +196,47 @@ function ClaimList(props) {
                 }
             </FilterDiv>
             <div className="listHead">
-                <p>접수 시간</p>
-                <p>접수 번호</p>
+                <p onClick = {() => SortHandler("접수시간")}>
+                    접수 시간
+                    {
+                        Sort === "접수시간" &&
+                        ( !SortType
+                            ? <SortUp />
+                            : <SortDown />
+                        )
+                    }
+                </p>
+                <p onClick = {() => SortHandler("접수번호")}>
+                    접수 번호
+                    {
+                        Sort === "접수번호" &&
+                        ( !SortType
+                            ? <SortUp />
+                            : <SortDown />
+                        )
+                    }
+                </p>
                 <p>민원 발생 위치</p>
-                <p>카테고리</p>
-                <p>처리 상태</p>
+                <p onClick = {() => SortHandler("카테고리")}>
+                    카테고리
+                    {
+                        Sort === "카테고리" &&
+                        ( !SortType
+                            ? <SortUp />
+                            : <SortDown />
+                        )
+                    }
+                </p>
+                <p onClick = {() => SortHandler("처리상태")}>
+                    처리 상태
+                    {
+                        Sort === "처리상태" &&
+                        ( !SortType
+                            ? <SortUp />
+                            : <SortDown />
+                        )
+                    }
+                </p>
                 <p>처리 시간</p>
                 <p>처리하기</p>
             </div>

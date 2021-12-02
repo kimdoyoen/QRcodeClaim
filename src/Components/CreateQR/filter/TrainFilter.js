@@ -42,7 +42,7 @@ function TrainFilter(props) {
     };
 
     useEffect(() => {
-        props.setQRLocation(TrainNum+"-"+CoachNum+"-"+location);
+        props.setQRLocation(TrainNum+"_"+CoachNum+"_"+location);
     }, [TrainNum, CoachNum, location]);
 
     return (

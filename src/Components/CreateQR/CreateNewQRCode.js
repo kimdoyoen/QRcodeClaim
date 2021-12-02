@@ -73,24 +73,27 @@ function CreateNewQRCode(props) {
         }
 
         if(QRType === "화장실") {
-            let temp = QRLocation.split('-');
-
-            if(temp[0] === "0" || (temp[0][0] === "B" && temp[0][1] === "0")) {
+            let temp = QRLocation.split('_');
+            if(!temp[0]) {
+                alert("역사 코드를 입력하세요.");
+                return;
+            }
+            if(temp[1] === "0" || (temp[1][0] === "B" && temp[1][1] === "0")) {
                 alert("화장실 층을 올바르게 입력하세요.");
                 return;
             }
-            if(temp[1] === "0") {
+            if(temp[2] === "0") {
                 alert("화장실 번호를 입력하세요.");
                 return;
             }
-            if(!temp[2]) {
+            if(!temp[3]) {
                 alert("종류를 선택하세요.");
                 return;
             }
         }
 
         if(QRType === "객차 안") {
-            let temp = QRLocation.split('-');
+            let temp = QRLocation.split('_');
 
             if(temp[0].length !== 4 || temp[0][0] === "0") {
                 alert("객차 번호를 올바르게 입력하세요.");
@@ -107,13 +110,17 @@ function CreateNewQRCode(props) {
         }
 
         if(QRType === "승강 설비") {
-            let temp = QRLocation.split('-');
+            let temp = QRLocation.split('_');
 
             if(!temp[0]) {
-                alert("승강 설비 종류를 선택하세요.");
+                alert("역사 코드를 입력하세요.");
                 return;
             }
             if(!temp[1]) {
+                alert("승강 설비 종류를 선택하세요.");
+                return;
+            }
+            if(!temp[2]) {
                 alert("승강 설비 위치를 입력하세요.");
                 return;
             }
@@ -198,8 +205,8 @@ function CreateNewQRCode(props) {
                         </div>
                         <div className="desc">
                             <Triangle /> <br />
-                            QR코드를 스캔하여<br />
-                            {QRList[CodeIdx].type}의 민원을 접수해보세요.<br />
+                            {QRList[CodeIdx].type} 민원 접수<br/>
+                            QR코드를 스캔하여 민원을 접수해보세요.<br />
                             전화・문자 접수 : 1577-1234
                         </div>
                     </div>

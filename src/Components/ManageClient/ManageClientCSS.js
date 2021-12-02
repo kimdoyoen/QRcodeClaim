@@ -123,6 +123,14 @@ const ClaimListDiv = styled.div`
             display: inline-block;
             width: calc(100% / 7);
             text-align: center;
+            svg {
+                width: 1rem;
+                height: 1rem;
+            }
+            cursor: pointer;
+        }
+        p:nth-of-type(2) {
+            cursor: normal;
         }
     }
     .claim {  
