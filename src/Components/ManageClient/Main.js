@@ -24,7 +24,7 @@ function Main(props) {
     }, []);
 
     useEffect(() => {
-        setSocket(socketio.connect("http://localhost:5000"));
+        setSocket(socketio.connect("http://192.168.0.8:5000"));
     }, []);
 
     useEffect(() => {

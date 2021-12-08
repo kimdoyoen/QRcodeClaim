@@ -6,7 +6,6 @@ const { User } = require("../model/User.js");
 
 
 router.post("/user", (req, res) => {
-    console.log(req.body)
     const user = new User(req.body)
     user.save((error) => {
         console.log(error);

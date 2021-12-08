@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import moment from 'moment';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import { ClaimResultDiv } from "./ClaimSubmitCSS.js";
@@ -33,7 +34,7 @@ function ClaimResultCheck(props) {
                 <p className="label">처리 상태</p>
                 <p>{ClaimResult.processingStatus}</p>
                 <p className="label">처리 시간</p>
-                <p>{ClaimResult.realTime}</p>
+                <p>{ClaimResult.processingStatus === "처리 완료" && moment(ClaimResult.updatedAt).format('YY-MM-DD[ ]HH:mm')}</p>
             </div>
             <CopyToClipboard text={"http://localhost:3000/ClaimResultCheck/"+props.match.params.url}>
                 <button onClick={() => alert("복사 완료")}>링크 복사</button>

@@ -26,7 +26,6 @@ router.post("/login", (req, res) => {
                 return res.status(400).send(err);
             }
 
-            console.log(user.userID);
             res.cookie("x_auth", user.token)
                 .status(200)
                 .json({ success: true, userID: user.userID });
