@@ -13,10 +13,12 @@ function Main(props) {
     const [Category, setCategory] = useState("민원 리스트");
     const [Socket, setSocket] = useState();
     const [NewClaim, setNewClaim] = useState({});
+    const [User, setUser] = useState({});
 
     useEffect(() => {
         axios.get("/api/user/auth").then((response) => {
             if(response.data.isAuth) {
+                setUser(response.data.user);
             } else {
                 props.history.push("/login");
             }
@@ -64,9 +66,12 @@ function Main(props) {
                 </div>
             </HeaderDiv>
             {
-                Category === "민원 리스트"
-                ? <ClaimList NewClaim={NewClaim}/>
-                : <ClaimChart />
+                User._id
+                ? (
+                    Category === "민원 리스트"
+                    ? <ClaimList NewClaim={NewClaim} User={User}/>
+                    : <ClaimChart />
+                ) : null
             }
             {
                 NewClaim.claimNum && <NewClaimAlarm claim={NewClaim} setNewClaim={setNewClaim}/>

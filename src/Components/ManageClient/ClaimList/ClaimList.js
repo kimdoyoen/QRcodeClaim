@@ -103,6 +103,9 @@ function ClaimList(props) {
                     createdAt: -1
                 }
             }
+            if(props.User.type === "설비담당자") {
+                body.engineer = props.User._id;
+            }
             console.log(body);
             axios.post("/api/claim", body).then((response) => {
                 if(response.data.success) {

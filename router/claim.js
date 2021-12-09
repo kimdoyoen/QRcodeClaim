@@ -12,10 +12,12 @@ moment.tz.setDefault("Asia/Seoul");
 router.post("/", (req, res) => {
     let sort = req.body.sort;
     delete req.body.sort;
+    console.log(req.body);
     Claim.find(req.body)
     .sort(sort)
     .exec()
     .then((claims) => {
+        console.log(claims);
         return res.status(200).send({success: true, claims: claims});
     })
     .catch((err) => {
@@ -240,25 +242,43 @@ router.post("/getStatistics", (req, res) => {
     .exec()
     .then((result) => {
         let [temp, temp2] = setTemp(req.body.match ? req.body.match.type : "");
-        let idx = 0;
-        for(let i=0; i<temp.length && result.length>0; i++) {
-            let newItem = {...result[idx].processingStatus};
-            newItem.type = result[idx].type;
+        // let idx = 0;
+        // for(let i=0; i<temp.length && result.length>0; i++) {
+        //     let newItem = {...result[idx].processingStatus};
+        //     newItem.type = result[idx].type;
+        //     let percentage1 = {
+        //         x: result[idx].type,
+        //         y: isNaN((result[idx].processingStatus["처리 완료"] / result[idx].sum)*100) ? 0 : (result[idx].processingStatus["처리 완료"] / result[idx].sum)*100,
+        //     };
+        //     let percentage2 = {
+        //         x: result[idx].type,
+        //         y: isNaN((result[idx].processingStatus["미처리"] / result[idx].sum)*100) ? 0 : (result[idx].processingStatus["미처리"] / result[idx].sum)*100,
+        //     }
+        //     if(temp[i].type === result[idx].type) {
+        //         temp[i] = newItem;
+        //         temp2[0]['data'][i] = percentage1;
+        //         temp2[1]['data'][i] = percentage2;
+        //         idx++;
+        //     }
+        //     if(idx === result.length) break;
+        // }
+
+        for (let i=0; i<result.length; i++) {
+            let newItem = {...result[i].processingStatus};
+            newItem.type = result[i].type;
             let percentage1 = {
-                x: result[idx].type,
-                y: isNaN((result[idx].processingStatus["처리 완료"] / result[idx].sum)*100) ? 0 : (result[idx].processingStatus["처리 완료"] / result[idx].sum)*100,
+                x: result[i].type,
+                y: isNaN((result[i].processingStatus["처리 완료"] / result[i].sum)*100) ? 0 : (result[i].processingStatus["처리 완료"] / result[i].sum)*100,
             };
             let percentage2 = {
-                x: result[idx].type,
-                y: isNaN((result[idx].processingStatus["미처리"] / result[idx].sum)*100) ? 0 : (result[idx].processingStatus["미처리"] / result[idx].sum)*100,
+                x: result[i].type,
+                y: isNaN((result[i].processingStatus["미처리"] / result[i].sum)*100) ? 0 : (result[i].processingStatus["미처리"] / result[i].sum)*100,
             }
-            if(temp[i].type === result[idx].type) {
-                temp[i] = newItem;
-                temp2[0]['data'][i] = percentage1;
-                temp2[1]['data'][i] = percentage2;
-                idx++;
-            }
-            if(idx === result.length) break;
+
+            let idx = temp.findIndex((obj) => obj.type === newItem.type);
+            temp[idx] = newItem;
+            temp2[0]['data'][idx] = percentage1;
+            temp2[1]['data'][idx] = percentage2;
         }
         return res.status(200).send({success: true, pureData: temp, percentage: temp2});
     })
