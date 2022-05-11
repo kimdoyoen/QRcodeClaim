@@ -1,70 +1,55 @@
-# Getting Started with Create React App
+# QR code를 이용한 지하철 민원 접수 시스템
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+건국대학교 3-2 산학협력프로젝트2에서 진행한 프로젝트입니다.
+진행 기간 : 2021.09 ~ 2021.12
+기술 스택 : React, Express, MongoDB
 
-## Available Scripts
+## 민원 접수 클라이언트
 
-In the project directory, you can run:
+지하철 사용자가 민원 접수 가능
+QR code 확인 시 민원 접수 사이트 URL 반환
+카테고리 별 민원 목록 및 기타 입력 칸 제공
+카테고리 : 화장실, E/V, E/S, 객차 내부
 
-### `npm start`
+## 관리 클라이언트
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+접수된 민원 관리 기능
+로그인 해야 이용 가능 : 설비 담당자, 관리자(직원)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+# 민원 접수 목록
+* 실시간 민원 접수 알림
+* 민원 필터링 및 정렬
+* 관리자 : 민원에 설비 담당자 배정
+* 설비 담당자 : 배정된 민원의 처리 상태 변경
+* QR code 생성 및 생성된 QR code 목록
 
-### `npm test`
+# 민원 통계 기능
+* 민원 필터링
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 잘한 점?
 
-### `npm run build`
+# 역할 분배
+보통 교내 프로젝트는 같은 학과 재학생끼리 진행하여 전체 과정을 다 같이 진행하는 경우가 많습니다.
+그러나 이번 프로젝트에서는 기획 2명, 디자인 1명, 개발 2명으로 역할을 분배하여 해당 담당인 팀원들을 중심으로 해당 과정을 진행하였습니다.
+역할 분배는 각자 희망하는 역할을 맡았습니다.
+최종 기획이나 피드백에는 모두가 참여하였지만, 기본적으로는 해당 역할을 담당한 친구들이 책임지고 하였고, 개발은 저를 포함하여 2명이서 모두 진행하였습니다.
+이를 통해, 다른 분야의 팀원에게 제 의견을 이해할 수 있도록 전하고 협력하는 역량을 좀 더 쌓을 수 있었습니다.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# 통계 기능
+사실 아래에도 썼듯이, 통계 기능이 있는 프로젝트에 NoSQL을 사용한 게 좀 후회됩니다.
+한 번 민원을 접수할 때, 민원을 여러가지 넣을 수 있기 때문에 사용자가 접수한 민원 목록을 배열로 저장햇는데 그것 떄문에 더욱 힘들었습니다.
+그렇지만 포기하지 않고 결국 해냈다는 점에서 어느 정도 칭찬을 해주고 싶습니다.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# 완성도
+프로젝트는 총 3달 정도 진행이 됐고, 그 중 절반은 기획으로 시간을 소요했기 떄문에 개발에 주어진 시간은 1달 남짓이었습니다.
+스타트업에서 근무도 하고 있었고, 다른 수업도 듣고 있었기 때문에 시간이 빠듯했습니다.
+그러나 좋은 기획과 디자인 덕분에 쉽게 데이터 플로우 차트, 인터페이스 등을 설계할 수 있었습니다.
+그렇게 작성된 설계를 바탕으로 단시간 내에 완성도 있게 프로젝트를 마무리 할 수 있었습니다.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 개선하고 싶은 점
 
-### `npm run eject`
+# MongoDB 사용
+프로젝트 특성 상 조회보다는 삽입이나 수정 요청이 많습니다.
+통계 기능을 구현해야 하므로 MongoDB 보다는 RDB를 사용하는 것이 더 적합했을 것이라고 생각합니다.
+프로젝트 진행 당시에는 다른 여러가지 일들이 겹치고, 개발 기간이 짧아 익숙한 MongoDB를 사용하였는데 이 점을 개선하고 싶습니다.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
